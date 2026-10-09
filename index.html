@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f3ec" />
+    <title>Folio — Your library, beautifully organized</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="brand-mark" aria-hidden="true">f.</div>
+          <div>
+            <p class="eyebrow">Your personal library</p>
+            <h1>folio<span>.</span></h1>
+          </div>
+        </div>
+
+        <nav class="nav-menu">
+          <p class="nav-label">WORKSPACE</p>
+          <button class="nav-btn active" data-section="overview"><span class="nav-icon">⌂</span>Overview</button>
+          <button class="nav-btn" data-section="books"><span class="nav-icon">▤</span>Book collection</button>
+          <button class="nav-btn" data-section="members"><span class="nav-icon">♙</span>Members</button>
+          <button class="nav-btn" data-section="issues"><span class="nav-icon">↗</span>Circulation</button>
+          <button class="nav-btn" data-section="reservations"><span class="nav-icon">⌑</span>Reservations</button>
+          <button class="nav-btn" data-section="reports"><span class="nav-icon">▥</span>Reports</button>
+          <button class="nav-btn" data-section="settings"><span class="nav-icon">⚙</span>Settings & backups</button>
+        </nav>
+
+        <div class="mini-card">
+          <span class="status-dot"></span>
+          <div><p>Library status</p><strong id="statusBadge">All systems lovely</strong></div>
+        </div>
+        <div class="sidebar-note">
+          <span>“</span>
+          <p>A room without books is like a body without a soul.</p>
+          <small>— Cicero</small>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="dateLabel">YOUR LIBRARY AT A GLANCE</p>
+            <h2>Good things are <em>in store.</em></h2>
+          </div>
+          <div class="topbar-actions">
+            <span class="storage-indicator"><span></span> Saved on this device</span>
+            <button class="ghost-btn small-btn" id="importBtn">↑ <span>Import</span></button>
+            <input id="importFile" type="file" accept="application/json,.json" hidden />
+            <button class="ghost-btn small-btn" id="exportBtn">↓ <span>Backup</span></button>
+          </div>
+        </header>
+
+        <section class="overview section-panel" id="overview">
+          <div class="hero-banner panel-box">
+            <div class="hero-copy">
+              <span class="mini-tag"><span class="status-dot"></span> YOUR READING ROOM</span>
+              <h3>Every book has a<br /><em>place to call home.</em></h3>
+              <p>A thoughtful little space to keep your collection in order and your next great read close by.</p>
+              <button class="hero-link" data-section="books">Explore your collection <span>↗</span></button>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+              <div class="sun-disc"></div>
+              <div class="book-stack stack-one"><i></i><i></i><i></i></div>
+              <div class="book-stack stack-two"><i></i><i></i></div>
+              <div class="plant"><b></b><b></b><b></b><i></i></div>
+              <div class="art-caption">A little more<br />room for wonder.</div>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card accent-blue">
+              <span class="stat-label"><i class="stat-icon">▤</i> Total titles</span>
+              <strong id="totalBooks">0</strong>
+              <small>In your collection</small>
+            </article>
+            <article class="stat-card accent-green">
+              <span class="stat-label"><i class="stat-icon">✳</i> Ready to read</span>
+              <strong id="availableBooks">0</strong>
+              <small>Ready to borrow</small>
+            </article>
+            <article class="stat-card accent-orange">
+              <span class="stat-label"><i class="stat-icon">↗</i> Out in the world</span>
+              <strong id="borrowedBooks">0</strong>
+              <small>Checked out</small>
+            </article>
+            <article class="stat-card accent-purple">
+              <span class="stat-label"><i class="stat-icon">♙</i> Your readers</span>
+              <strong id="memberCount">0</strong>
+              <small>Registered users</small>
+            </article>
+          </div>
+
+          <div class="summary-grid">
+            <div class="panel-box">
+              <div class="panel-title-row">
+                <h3>A little housekeeping</h3>
+              </div>
+              <div class="quick-actions">
+                <button class="ghost-btn action-tile" data-section="books"><span>＋</span><b>Add a book</b><small>Grow your collection</small></button>
+                <button class="ghost-btn action-tile" data-section="members"><span>♙</span><b>Welcome a reader</b><small>Add a library member</small></button>
+                <button class="ghost-btn action-tile" data-section="issues"><span>↗</span><b>Manage loans</b><small>See what's out there</small></button>
+              </div>
+            </div>
+
+            <div class="panel-box">
+              <div class="panel-title-row">
+                <h3>Borrowing insights</h3>
+              </div>
+              <ul class="insight-list" id="insightList">
+                <li>Loading insights...</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="panel-box activity-panel">
+            <div class="panel-title-row">
+              <h3>Recent activity</h3>
+            </div>
+            <ul class="activity-list" id="activityList">
+              <li>Ready for your next library action.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section-panel hidden" id="books">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Catalog</p>
+              <h3>Book management</h3>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <input type="search" id="bookSearch" placeholder="Search by title, author, or ISBN" />
+            <select id="genreFilter">
+              <option value="all">All genres</option>
+            </select>
+            <select id="availabilityFilter" aria-label="Filter books by availability">
+              <option value="all">Any availability</option>
+              <option value="available">Available</option>
+              <option value="unavailable">Fully borrowed</option>
+          </div>
+
+          <div class="form-grid">
+            <form id="bookForm" class="panel-box form-card">
+              <div class="panel-title-row">
+                <h4>Add a book</h4>
+              </div>
+              <div class="field-grid">
+                <label>
+                  <span>Title</span>
+                  <input type="text" name="title" required />
+                </label>
+                <label>
+                  <span>Author</span>
+                  <input type="text" name="author" required />
+                </label>
+                <label>
+                  <span>ISBN</span>
+                  <input type="text" name="isbn" required />
+                </label>
+                <label>
+                  <span>Genre</span>
+                  <input type="text" name="genre" required />
+                </label>
+                <label>
+                  <span>Publisher</span>
+                  <input type="text" name="publisher" />
+                </label>
+                <label>
+                  <span>Shelf / location</span>
+                  <input type="text" name="location" placeholder="e.g. A-03" />
+                </label>
+                <label>
+                  <span>Minimum stock alert</span>
+                  <input type="number" name="minStock" min="0" value="1" required />
+                </label>
+                <label>
+                  <span>Quantity</span>
+                  <input type="number" name="quantity" min="1" value="1" required />
+                </label>
+              </div>
+              <button type="submit" class="primary-btn full-width">Save book</button>
+            </form>
+
+            <div class="panel-box stats-highlight">
+              <div class="panel-title-row">
+                <h4>Catalog snapshot</h4>
+              </div>
+              <div class="summary-metric">
+                <span>Popular category</span>
+                <strong id="topGenre">-</strong>
+              </div>
+              <div class="summary-metric">
+                <span>Low stock</span>
+                <strong id="lowStockCount">0</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-wrap panel-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>ISBN</th>
+                  <th>Genre</th>
+                  <th>Location</th>
+                  <th>Stock</th>
+                  <th>Available</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="bookTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section-panel hidden" id="members">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Members</p>
+              <h3>User registry</h3>
+            </div>
+          </div>
+
+          <div class="form-grid single-form">
+            <form id="memberForm" class="panel-box form-card">
+              <div class="panel-title-row">
+                <h4>Add member</h4>
+              </div>
+              <div class="field-grid">
+                <label>
+                  <span>Name</span>
+                  <input type="text" name="name" required />
+                </label>
+                <label>
+                  <span>Address</span>
+                  <input type="text" name="address" required />
+                </label>
+                <label>
+                  <span>Contact</span>
+                  <input type="tel" name="contact" required />
+                </label>
+                <label>
+                  <span>Email (optional)</span>
+                  <input type="email" name="email" />
+                </label>
+                <label>
+                  <span>Membership expires (optional)</span>
+                  <input type="date" name="expiresAt" />
+                </label>
+                <label>
+                  <span>Role</span>
+                  <select name="role">
+                    <option value="member">Member</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </label>
+              </div>
+              <button type="submit" class="primary-btn full-width">Register member</button>
+            </form>
+          </div>
+
+          <div class="toolbar">
+            <input type="search" id="memberSearch" placeholder="Search members by name, email, or contact" />
+            <select id="memberStatusFilter" aria-label="Filter members by status">
+              <option value="all">All members</option>
+              <option value="active">Active</option>
+              <option value="expired">Membership expired</option>
+            </select>
+          </div>
+
+          <div class="table-wrap panel-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Contact</th>
+                  <th>Email</th>
+                  <th>Active loans</th>
+                  <th>Role</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="memberTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section-panel hidden" id="issues">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Borrowing</p>
+              <h3>Loan tracker</h3>
+            </div>
+          </div>
+
+          <div class="form-grid issue-grid">
+            <div class="panel-box form-card">
+              <div class="panel-title-row">
+                <h4>Issue a book</h4>
+              </div>
+              <form id="borrowForm">
+                <label>
+                  <span>Select member</span>
+                  <select id="memberSelect" required></select>
+                </label>
+                <label>
+                  <span>Select book</span>
+                  <select id="borrowBookSelect" required></select>
+                </label>
+                <label>
+                  <span>Loan period</span>
+                  <select id="loanPeriodSelect">
+                    <option value="14">14 days</option>
+                    <option value="21">21 days</option>
+                    <option value="28">28 days</option>
+                  </select>
+                </label>
+                <button type="submit" class="primary-btn full-width">Borrow book</button>
+              </form>
+            </div>
+
+            <div class="panel-box">
+              <div class="panel-title-row">
+                <h4>Active loans</h4>
+              </div>
+              <div class="toolbar compact-toolbar">
+                <input type="search" id="loanSearch" placeholder="Search active loans" />
+                <select id="loanStatusFilter">
+                  <option value="all">All active</option>
+                  <option value="due-soon">Due soon</option>
+                  <option value="overdue">Overdue</option>
+                  <option value="on-time">On time</option>
+                </select>
+              </div>
+              <ul class="issues-list" id="issueList"></ul>
+            </div>
+          </div>
+
+          <div class="panel-box history-panel">
+            <div class="panel-title-row">
+              <h4>Circulation history</h4>
+              <span class="subtle-note">Returned items and fines</span>
+            </div>
+            <div class="toolbar compact-toolbar">
+              <input type="search" id="historySearch" placeholder="Search history by member or book" />
+              <select id="historyFilter">
+                <option value="all">All history</option>
+                <option value="with-fines">With fines</option>
+                <option value="no-fines">No fines</option>
+              </select>
+            </div>
+            <div class="table-wrap history-table">
+              <table>
+                <thead><tr><th>Member</th><th>Book</th><th>Borrowed</th><th>Due</th><th>Returned</th><th>Fine</th><th>Payment</th></tr></thead>
+                <tbody id="historyTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-panel hidden" id="reservations">
+          <div class="section-header">
+            <div><p class="eyebrow">Hold queue</p><h3>Reservations</h3></div>
+          </div>
+          <div class="form-grid issue-grid">
+            <form id="reservationForm" class="panel-box form-card">
+              <div class="panel-title-row"><h4>Place a reservation</h4></div>
+              <label><span>Member</span><select id="reservationMemberSelect" required></select></label>
+              <label><span>Book</span><select id="reservationBookSelect" required></select></label>
+              <button type="submit" class="primary-btn full-width">Join the queue</button>
+            </form>
+            <div class="panel-box">
+              <div class="panel-title-row"><h4>How reservations work</h4></div>
+              <p class="helper-copy">Reservations are queued in the order they are placed. When a copy is available, issue it from Circulation; remove a hold whenever it is no longer needed.</p>
+              <div class="summary-metric"><span>Waiting reservations</span><strong id="reservationCount">0</strong></div>
+            </div>
+          </div>
+          <div class="panel-box">
+            <div class="panel-title-row"><h4>Reservation queue</h4></div>
+            <ul class="issues-list" id="reservationList"></ul>
+          </div>
+        </section>
+
+        <section class="section-panel hidden" id="reports">
+          <div class="section-header">
+            <div><p class="eyebrow">Collection intelligence</p><h3>Reports & insights</h3></div>
+            <button class="primary-btn" id="exportReportBtn">Download CSV report</button>
+          </div>
+          <div class="stats-grid report-stats">
+            <article class="stat-card"><span>Copies in circulation</span><strong id="reportCopies">0</strong><small>Total physical copies</small></article>
+            <article class="stat-card"><span>Outstanding fines</span><strong id="reportFines">0</strong><small>Estimated at current policy</small></article>
+            <article class="stat-card"><span>Most borrowed</span><strong id="reportPopular">—</strong><small>All-time checkouts</small></article>
+            <article class="stat-card"><span>Overdue now</span><strong id="reportOverdue">0</strong><small>Needs follow-up</small></article>
+          </div>
+          <div class="summary-grid">
+            <div class="panel-box"><div class="panel-title-row"><h4>Collection by genre</h4></div><div id="genreReport" class="bar-report"></div></div>
+            <div class="panel-box"><div class="panel-title-row"><h4>Books to restock</h4></div><ul id="restockList" class="insight-list"></ul></div>
+          </div>
+        </section>
+
+        <section class="section-panel hidden" id="settings">
+          <div class="section-header">
+            <div><p class="eyebrow">Your device, your library</p><h3>Settings & backups</h3></div>
+          </div>
+          <div class="settings-grid">
+            <form id="settingsForm" class="panel-box form-card">
+              <div class="panel-title-row"><h4>Circulation policy</h4></div>
+              <label><span>Default loan period (days)</span><input type="number" name="loanDays" min="1" max="90" required /></label>
+              <label><span>Late fee per day</span><input type="number" name="finePerDay" min="0" step="0.25" required /></label>
+              <label><span>Currency symbol</span><input type="text" name="currency" maxlength="4" required /></label>
+              <button type="submit" class="primary-btn full-width">Save policy</button>
+            </form>
+            <div class="panel-box form-card">
+              <div class="panel-title-row"><h4>Protect your library data</h4></div>
+              <p class="helper-copy">Your books, members, loans, and settings are saved only in this browser. Export a backup regularly. Clearing browser data will remove the library unless you have a backup.</p>
+              <div class="backup-actions">
+                <button class="ghost-btn" id="settingsExportBtn">Download full backup</button>
+                <button class="ghost-btn" id="settingsImportBtn">Restore from JSON</button>
+                <button class="danger-btn" id="resetAllBtn">Restore sample library</button>
+              </div>
+              <p class="subtle-note" id="storageUsage">Checking browser storage…</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

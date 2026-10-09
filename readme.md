@@ -188,3 +188,21 @@ python main.py
 
 Give it a ⭐ on GitHub and feel free to fork and improve it!
 
+---
+
+## 🌿 Folio browser app (no backend)
+
+The repository also includes a standalone browser-based library dashboard built with HTML, CSS, and JavaScript. It does not connect to MySQL or require a server-side application. Open `index.html` directly, or serve the repository with a static file server.
+
+The browser app stores its library data in `localStorage` on the current browser and device. Data is not synchronized between devices or browser profiles. Use **Settings & backups** to download a JSON backup or restore one. Clearing browser storage removes locally saved data.
+
+### Browser app features
+
+* Catalog search, genre and availability filters, stock alerts, shelf locations, and book editing/removal
+* Member registration, membership expiry, search, and member record management
+* Checkouts, configurable loan periods and late fees, due-date status, limited renewals, and return history
+* Reservation queues that prioritize the earliest hold
+* Collection, circulation, overdue, fine, and restock reports, including CSV inventory export
+* JSON backup and restore, with configurable circulation policy
+
+This local-only app is intended for personal, demo, or single-device use. `localStorage` is not a shared or secure multi-user database. The Python/MySQL console program remains a separate application.
